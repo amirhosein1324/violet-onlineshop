@@ -10,10 +10,6 @@ Route::get('/', function () {
 
 Route::get('/', StoreFront::class);
 
-Route::get('/', function () {
-    return view('welcome');
-});
-
 Route::get('/dashboard', function () {
     return view('dashboard');
 })->middleware(['auth', 'verified'])->name('dashboard');

@@ -7,8 +7,8 @@
     @vite(['resources/css/app.css', 'resources/js/app.js'])
     @livewireStyles
 </head>
-<body class="bg-slate-950">
-    
+<body class="bg-slate-950 text-slate-100 font-sans">
+
     <livewire:store-front />
 
     @livewireScripts
