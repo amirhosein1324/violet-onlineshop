@@ -2,14 +2,13 @@
 
 use App\Http\Controllers\ProfileController;
 use Illuminate\Support\Facades\Route;
-use App\Livewire\StoreFront;
 
+// 1. Home route rendering the welcome Blade view (which contains <livewire:store-front />)
 Route::get('/', function () {
     return view('welcome');
 });
 
-Route::get('/', StoreFront::class);
-
+// 2. Auth Routes (Breeze/Jetstream)
 Route::get('/dashboard', function () {
     return view('dashboard');
 })->middleware(['auth', 'verified'])->name('dashboard');
