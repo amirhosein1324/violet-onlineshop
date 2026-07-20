@@ -4,6 +4,10 @@ use App\Http\Controllers\ProfileController;
 use Illuminate\Support\Facades\Route;
 use App\Livewire\StoreFront;
 
+Route::get('/', function () {
+    return view('welcome');
+});
+
 Route::get('/', StoreFront::class);
 
 Route::get('/', function () {
