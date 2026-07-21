@@ -163,11 +163,11 @@
                             <span>Subtotal</span>
                             <span class="text-violet-400">${{ number_format($this->cartTotal, 2) }}</span>
                         </div>
-                        <button @click="alert('Proceeding to Checkout!')" 
-                                class="w-full bg-violet-600 hover:bg-violet-500 text-white font-bold py-3 rounded-xl shadow-lg shadow-violet-600/30 transition-all text-sm {{ empty($cart) ? 'opacity-50 cursor-not-allowed' : '' }}" 
-                                {{ empty($cart) ? 'disabled' : '' }}>
+                        
+                        <a href="{{ route('checkout') }}" 
+                           class="block text-center w-full bg-violet-600 hover:bg-violet-500 text-white font-bold py-3 rounded-xl shadow-lg shadow-violet-600/30 transition-all text-sm {{ empty($cart) ? 'opacity-50 pointer-events-none' : '' }}">
                             Checkout Now
-                        </button>
+                        </a>
                     </div>
                 </div>
             </div>
