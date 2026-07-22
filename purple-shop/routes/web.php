@@ -3,6 +3,9 @@
 use App\Http\Controllers\ProfileController;
 use Illuminate\Support\Facades\Route;
 use App\Livewire\Checkout;
+use App\Livewire\Admin\ManageProducts;
+
+Route::get('/admin/products', ManageProducts::class)->name('admin.products');
 
 Route::get('/', function () {
     return view('welcome');
