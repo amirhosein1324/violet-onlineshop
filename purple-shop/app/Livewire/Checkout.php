@@ -1,75 +1,37 @@
-<?php
+public $couponCode = '';
+public $appliedCoupon = null;
+public $discount = 0;
 
-namespace App\Livewire;
-
-use Livewire\Component;
-use App\Models\Order;
-use App\Mail\OrderConfirmed;
-use Illuminate\Support\Facades\Mail;
-use Stripe\Stripe;
-use Stripe\Charge;
-
-class Checkout extends Component
+public function applyCoupon()
 {
-    public $name, $email, $address, $stripeToken;
-    public $cartItems = [];
-    public $total = 0;
+    $coupon = Coupon::where('code', strtoupper($this->couponCode))
+        ->where('is_active', true)
+        ->first();
 
-    protected $rules = [
-        'name' => 'required|string',
-        'email' => 'required|email',
-        'address' => 'required|string',
-        'stripeToken' => 'required',
-    ];
-
-    public function mount()
-    {
-        $this->cartItems = session()->get('cart', []);
-        $this->total = array_reduce($this->cartItems, fn($sum, $item) => $sum + ($item['price'] * $item['quantity']), 0);
+    if (!$coupon) {
+        session()->flash('coupon_error', 'Invalid or expired coupon code.');
+        return;
     }
 
-    public function processOrder()
-    {
-        $this->validate();
-
-        try {
-            // Process Stripe Charge
-            Stripe::setApiKey(config('services.stripe.secret'));
-
-            $charge = Charge::create([
-                'amount' => $this->total * 100, // Amount in cents
-                'currency' => 'usd',
-                'description' => 'Byte Bazaar Order',
-                'source' => $this->stripeToken,
-                'receipt_email' => $this->email,
-            ]);
-
-            // Save Order to Database
-            $order = Order::create([
-                'customer_name' => $this->name,
-                'customer_email' => $this->email,
-                'shipping_address' => $this->address,
-                'total' => $this->total,
-                'status' => 'Paid',
-                'stripe_charge_id' => $charge->id,
-            ]);
-
-            // Clear Cart Session
-            session()->forget('cart');
-
-            // Send Confirmation Email
-            Mail::to($this->email)->send(new OrderConfirmed($order));
-
-            session()->flash('success', 'Payment successful! Confirmation email sent.');
-            return redirect()->route('order.success', $order->id);
-
-        } catch (\Exception $e) {
-            session()->flash('error', $e->getMessage());
-        }
+    if ($this->total < $coupon->min_order_amount) {
+        session()->flash('coupon_error', "Minimum order amount of $" . number_format($coupon->min_order_amount, 2) . " required.");
+        return;
     }
 
-    public function render()
-    {
-        return view('livewire.checkout')->layout('layouts.app');
-    }
+    $this->appliedCoupon = $coupon;
+    $this->discount = $coupon->calculateDiscount($this->total);
+    session()->flash('coupon_success', 'Coupon applied successfully!');
+}
+
+public function removeCoupon()
+{
+    $this->appliedCoupon = null;
+    $this->discount = 0;
+    $this->couponCode = '';
+}
+
+// Update payment calculations:
+public function getFinalTotalProperty()
+{
+    return max(0, $this->total - $this->discount);
 }
