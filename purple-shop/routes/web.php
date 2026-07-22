@@ -4,6 +4,9 @@ use App\Http\Controllers\ProfileController;
 use Illuminate\Support\Facades\Route;
 use App\Livewire\Checkout;
 use App\Livewire\Admin\ManageProducts;
+use App\Livewire\Admin\ManageCoupons;
+
+Route::get('/admin/coupons', ManageCoupons::class)->name('admin.coupons');
 
 Route::get('/admin/products', ManageProducts::class)->name('admin.products');
 
