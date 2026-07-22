@@ -2,88 +2,74 @@
 
 namespace App\Livewire;
 
-use App\Models\Order;
-use App\Models\OrderItem;
-use Illuminate\Support\Str;
 use Livewire\Component;
+use App\Models\Order;
+use App\Mail\OrderConfirmed;
+use Illuminate\Support\Facades\Mail;
+use Stripe\Stripe;
+use Stripe\Charge;
 
 class Checkout extends Component
 {
-    // Form fields
-    public $name = '';
-    public $email = '';
-    public $address = '';
-    public $city = '';
-    public $postal_code = '';
-    public $payment_method = 'card';
-
-    public $cart = [];
-    public $orderPlaced = false;
-    public $placedOrderNumber = '';
+    public $name, $email, $address, $stripeToken;
+    public $cartItems = [];
+    public $total = 0;
 
     protected $rules = [
-        'name' => 'required|min:3',
+        'name' => 'required|string',
         'email' => 'required|email',
-        'address' => 'required|min:5',
-        'city' => 'required',
-        'postal_code' => 'required',
-        'payment_method' => 'required',
+        'address' => 'required|string',
+        'stripeToken' => 'required',
     ];
 
     public function mount()
     {
-        $this->cart = session()->get('cart', []);
+        $this->cartItems = session()->get('cart', []);
+        $this->total = array_reduce($this->cartItems, fn($sum, $item) => $sum + ($item['price'] * $item['quantity']), 0);
     }
 
-    public function getCartTotalProperty()
-    {
-        return array_reduce($this->cart, function ($total, $item) {
-            return $total + ($item['price'] * $item['quantity']);
-        }, 0);
-    }
-
-    public function placeOrder()
+    public function processOrder()
     {
         $this->validate();
 
-        if (empty($this->cart)) {
-            session()->flash('error', 'Your cart is empty.');
-            return;
-        }
+        try {
+            // Process Stripe Charge
+            Stripe::setApiKey(config('services.stripe.secret'));
 
-        $orderNumber = 'ORD-' . strtoupper(Str::random(8));
-
-        $order = Order::create([
-            'order_number' => $orderNumber,
-            'customer_name' => $this->name,
-            'customer_email' => $this->email,
-            'address' => $this->address,
-            'city' => $this->city,
-            'postal_code' => $this->postal_code,
-            'total_amount' => $this->cartTotal,
-            'payment_method' => $this->payment_method,
-            'status' => 'completed',
-        ]);
-
-        foreach ($this->cart as $item) {
-            OrderItem::create([
-                'order_id' => $order->id,
-                'product_id' => $item['id'],
-                'quantity' => $item['quantity'],
-                'price' => $item['price'],
+            $charge = Charge::create([
+                'amount' => $this->total * 100, // Amount in cents
+                'currency' => 'usd',
+                'description' => 'Byte Bazaar Order',
+                'source' => $this->stripeToken,
+                'receipt_email' => $this->email,
             ]);
+
+            // Save Order to Database
+            $order = Order::create([
+                'customer_name' => $this->name,
+                'customer_email' => $this->email,
+                'shipping_address' => $this->address,
+                'total' => $this->total,
+                'status' => 'Paid',
+                'stripe_charge_id' => $charge->id,
+            ]);
+
+            // Clear Cart Session
+            session()->forget('cart');
+
+            // Send Confirmation Email
+            Mail::to($this->email)->send(new OrderConfirmed($order));
+
+            session()->flash('success', 'Payment successful! Confirmation email sent.');
+            return redirect()->route('order.success', $order->id);
+
+        } catch (\Exception $e) {
+            session()->flash('error', $e->getMessage());
         }
-
-        // Clear session cart
-        session()->forget('cart');
-        $this->cart = [];
-
-        $this->placedOrderNumber = $orderNumber;
-        $this->orderPlaced = true;
     }
 
     public function render()
     {
-        return view('livewire.checkout');
+        return view('livewire.checkout')->layout('layouts.app');
     }
 }
