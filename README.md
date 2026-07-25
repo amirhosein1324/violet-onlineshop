@@ -7,3 +7,15 @@
 
 **Violet shop** is a modern, high-performance e-commerce platform built on Laravel with a sleek **Electric Violet & Slate Gray** theme. Designed for optimal user experience, it features custom glowing UI elements, glassmorphism UI components, real-time customer reviews, coupon management, and robust administrative tools.
 
+---
+
+## 🎨 Key Features & Highlights
+
+* **💜 Modern Dark Mode UI:** Electric Violet accents layered over Charcoal/Slate Gray backgrounds with subtle glassmorphism and glowing hover effects.
+* **🛍️ Product Showcase & Catalog:** Dynamic product grid displaying real-time star ratings, availability, and detailed product attributes.
+* **⭐ Star Ratings & Reviews System:** Allows users to submit 1–5 star ratings and written reviews with dynamic aggregate score calculation.
+* **🛒 Shopping Cart & Coupon Engine:** Seamless session-based cart management with discount coupon code validation.
+* **📊 Sales & Analytics Dashboard:** Integrated admin overview for tracking orders, top-selling items, and platform metrics.
+* **📱 Responsive Design:** Fully responsive layout optimized across mobile, tablet, and desktop viewports.
+
+---
