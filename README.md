@@ -19,3 +19,13 @@
 * **📱 Responsive Design:** Fully responsive layout optimized across mobile, tablet, and desktop viewports.
 
 ---
+
+
+## 🛠️ Tech Stack
+
+* **Framework:** [Laravel](https://laravel.com/)
+* **Frontend:** Blade Templates, [Tailwind CSS](https://tailwindcss.com/)
+* **Database:** MySQL
+* **Icons & Styling:** Heroicons / Custom SVG with Tailwind glassmorphism backdrop blurs
+
+---
