@@ -29,3 +29,12 @@
 * **Icons & Styling:** Heroicons / Custom SVG with Tailwind glassmorphism backdrop blurs
 
 ---
+
+---
+
+### ⚙️ Installation & Setup
+
+1. **Clone the repository:**
+   ```bash
+   git clone [https://github.com/your-username/byte-bazaar.git](https://github.com/your-username/byte-bazaar.git)
+
