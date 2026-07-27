@@ -1,31 +1,44 @@
-<div class="bg-slate-900/80 border border-slate-800 rounded-2xl p-4 transition-all duration-300 hover:border-purple-500/50 hover:shadow-[0_0_25px_rgba(168,85,247,0.15)] relative group">
-    
-    <div class="relative overflow-hidden rounded-xl mb-4 bg-slate-950 aspect-square flex items-center justify-center">
-        <span class="absolute top-3 left-3 bg-purple-950/80 border border-purple-500/30 text-purple-300 text-xs px-2.5 py-1 rounded-full backdrop-blur-md">
-            {{ $product->category }}
-        </span>
-        <img src="{{ asset('storage/' . $product->image) }}" alt="{{ $product->name }}" class="object-cover group-hover:scale-105 transition-transform duration-300">
-    </div>
-
-    <div class="space-y-2">
-        <div class="flex justify-between items-center text-xs text-slate-400">
-            <span class="text-amber-400 font-medium">★ 4.9 (18)</span>
-            <span class="text-emerald-400 font-medium">In Stock</span>
+<div class="mb-8 bg-slate-900 border border-slate-800 rounded-2xl p-5 shadow-2xl">
+    <form action="{{ route('home') }}" method="GET" class="grid grid-cols-1 md:grid-cols-4 gap-4 items-center">
+        
+        <div class="relative">
+            <input type="text" name="search" value="{{ request('search') }}" 
+                   placeholder="Search products..." 
+                   class="w-full bg-slate-950 border border-slate-800 rounded-xl px-4 py-2.5 text-sm text-slate-100 placeholder-slate-500 focus:border-purple-500 focus:outline-none transition">
         </div>
 
-        <h3 class="text-lg font-bold text-slate-100 group-hover:text-purple-400 transition-colors">
-            {{ $product->name }}
-        </h3>
+        <div>
+            <select name="category" onchange="this.form.submit()" 
+                    class="w-full bg-slate-950 border border-slate-800 rounded-xl px-4 py-2.5 text-sm text-slate-300 focus:border-purple-500 focus:outline-none cursor-pointer">
+                <option value="all">All Categories</option>
+                @foreach($categories as $category)
+                    <option value="{{ $category }}" {{ request('category') == $category ? 'selected' : '' }}>
+                        {{ ucfirst($category) }}
+                    </option>
+                @endforeach
+            </select>
+        </div>
 
-        <div class="flex items-center justify-between pt-2">
-            <span class="text-xl font-extrabold text-purple-400 font-mono">
-                ${{ number_format($product->price, 2) }}
-            </span>
+        <div>
+            <select name="sort" onchange="this.form.submit()" 
+                    class="w-full bg-slate-950 border border-slate-800 rounded-xl px-4 py-2.5 text-sm text-slate-300 focus:border-purple-500 focus:outline-none cursor-pointer">
+                <option value="newest" {{ request('sort') == 'newest' ? 'selected' : '' }}>Newest Arrivals</option>
+                <option value="price_asc" {{ request('sort') == 'price_asc' ? 'selected' : '' }}>Price: Low to High</option>
+                <option value="price_desc" {{ request('sort') == 'price_desc' ? 'selected' : '' }}>Price: High to Low</option>
+                <option value="top_rated" {{ request('sort') == 'top_rated' ? 'selected' : '' }}>Highest Rated</option>
+            </select>
+        </div>
 
-            <button wire:click="$dispatch('addToCart', { id: {{ $product->id }} })" 
-                    class="px-4 py-2 bg-purple-600 hover:bg-purple-500 text-white font-semibold text-sm rounded-xl transition shadow-lg shadow-purple-600/20 active:scale-95">
-                Add to Cart
+        <div class="flex items-center space-x-2">
+            <button type="submit" class="w-full bg-purple-600 hover:bg-purple-500 text-white font-bold text-sm py-2.5 rounded-xl transition shadow-lg shadow-purple-600/30">
+                Filter
             </button>
+
+            @if(request()->anyFilled(['search', 'category', 'sort', 'min_price', 'max_price']))
+                <a href="{{ route('home') }}" class="px-4 py-2.5 bg-slate-800 hover:bg-slate-700 text-slate-400 text-xs font-semibold rounded-xl transition">
+                    Reset
+                </a>
+            @endif
         </div>
-    </div>
+    </form>
 </div>
