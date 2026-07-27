@@ -5,6 +5,10 @@ use Illuminate\Support\Facades\Route;
 use App\Livewire\Checkout;
 use App\Livewire\Admin\ManageProducts;
 use App\Livewire\Admin\ManageCoupons;
+use App\Http\Controllers\WishlistController;
+
+Route::get('/wishlist', [WishlistController::class, 'index'])->name('wishlist.index');
+Route::post('/wishlist/{product}/toggle', [WishlistController::class, 'toggle'])->name('wishlist.toggle');
 
 Route::get('/admin/coupons', ManageCoupons::class)->name('admin.coupons');
 
