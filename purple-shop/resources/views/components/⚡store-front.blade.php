@@ -46,3 +46,14 @@
 <div class="mt-8">
     {{ $products->links() }}
 </div>
+
+@php
+    $inWishlist = in_array($product->id, session()->get('wishlist', []));
+@endphp
+
+<form action="{{ route('wishlist.toggle', $product->id) }}" method="POST">
+    @csrf
+    <button type="submit" class="p-2 rounded-xl border {{ $inWishlist ? 'bg-purple-950 border-purple-500 text-purple-400' : 'bg-slate-800/80 border-slate-700 text-slate-400 hover:text-purple-400' }} transition">
+        {{ $inWishlist ? '❤️' : '🤍' }}
+    </button>
+</form>
