@@ -2,13 +2,16 @@
     <form action="{{ route('home') }}" method="GET" class="grid grid-cols-1 md:grid-cols-4 gap-4 items-center">
         
         <div class="relative">
-            <input type="text" name="search" value="{{ request('search') }}" 
+            <input type="text" 
+                   name="search" 
+                   value="{{ request('search') }}" 
                    placeholder="Search products..." 
                    class="w-full bg-slate-950 border border-slate-800 rounded-xl px-4 py-2.5 text-sm text-slate-100 placeholder-slate-500 focus:border-purple-500 focus:outline-none transition">
         </div>
 
         <div>
-            <select name="category" onchange="this.form.submit()" 
+            <select name="category" 
+                    onchange="this.form.submit()" 
                     class="w-full bg-slate-950 border border-slate-800 rounded-xl px-4 py-2.5 text-sm text-slate-300 focus:border-purple-500 focus:outline-none cursor-pointer">
                 <option value="all">All Categories</option>
                 @foreach($categories as $category)
@@ -20,7 +23,8 @@
         </div>
 
         <div>
-            <select name="sort" onchange="this.form.submit()" 
+            <select name="sort" 
+                    onchange="this.form.submit()" 
                     class="w-full bg-slate-950 border border-slate-800 rounded-xl px-4 py-2.5 text-sm text-slate-300 focus:border-purple-500 focus:outline-none cursor-pointer">
                 <option value="newest" {{ request('sort') == 'newest' ? 'selected' : '' }}>Newest Arrivals</option>
                 <option value="price_asc" {{ request('sort') == 'price_asc' ? 'selected' : '' }}>Price: Low to High</option>
