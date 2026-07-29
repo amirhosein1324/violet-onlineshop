@@ -14,17 +14,18 @@ class Coupon extends Model
         'type',
         'value',
         'min_order_amount',
-        'usage_limit',
-        'used_count',
         'is_active',
     ];
 
-    public function calculateDiscount($subtotal)
+    /**
+     * Calculate discount amount for a given order total.
+     */
+    public function calculateDiscount(float $total): float
     {
         if ($this->type === 'percent') {
-            return ($subtotal * ($this->value / 100));
+            return ($total * $this->value) / 100;
         }
 
-        return min($this->value, $subtotal); // Don't exceed subtotal
+        return min($this->value, $total);
     }
 }
