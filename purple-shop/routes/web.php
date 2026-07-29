@@ -13,6 +13,7 @@ use App\Livewire\Admin\ManageCoupons;use App\Livewire\Admin\ManageProducts;
 | Public Storefront Routes
 |--------------------------------------------------------------------------
 */
+Route::get(uri: '/admin/products', ManageProducts::class)->name('admin.products');
 
 // Home / Main Storefront
 Route::get('/', [ProductController::class, 'index'])->name('home');
