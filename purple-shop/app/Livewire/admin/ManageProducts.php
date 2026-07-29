@@ -11,7 +11,7 @@ class ManageProducts extends Component
     use WithFileUploads;
 
     public $products, $name, $description, $price, $category, $image, $product_id;
-    public $isEditMode = false;
+    public $isEditing = false;
     public $showModal = false;
 
     protected $rules = [
@@ -19,75 +19,81 @@ class ManageProducts extends Component
         'description' => 'required|string',
         'price' => 'required|numeric|min:0',
         'category' => 'required|string',
-        'image' => 'nullable|image|max:2048', // 2MB Max
+        'image' => 'nullable|image|max:2048', // Max 2MB
     ];
 
     public function render()
     {
         $this->products = Product::latest()->get();
-        return view('livewire.admin.manage-products')->layout('layouts.app');
+        return view('livewire.admin.manage-products');
+    }
+
+    public function resetFields()
+    {
+        $this->name = '';
+        $this->description = '';
+        $this->price = '';
+        $this->category = '';
+        $this->image = null;
+        $this->product_id = null;
+        $this->isEditing = false;
+        $this->showModal = false;
     }
 
     public function openModal()
     {
-        $this->resetInputFields();
+        $this->resetFields();
         $this->showModal = true;
     }
 
     public function closeModal()
     {
         $this->showModal = false;
-        $this->resetInputFields();
-    }
-
-    private function resetInputFields()
-    {
-        $this->name = '';
-        $this->description = '';
-        $this->price = '';
-        $this->category = 'Audio';
-        $this->image = null;
-        $this->product_id = null;
-        $this->isEditMode = false;
     }
 
     public function store()
     {
         $this->validate();
 
-        $imagePath = $this->image ? $this->image->store('products', 'public') : 'products/default.jpg';
+        $imagePath = $this->image ? $this->image->store('products', 'public') : null;
 
         Product::create([
             'name' => $this->name,
             'description' => $this->description,
             'price' => $this->price,
-            'category' => $this->category,
+            'category' => strtolower($this->category),
             'image' => $imagePath,
         ]);
 
-        session()->flash('message', 'Product Created Successfully!');
-        $this->closeModal();
+        session()->flash('message', 'Product created successfully!');
+        $this->resetFields();
     }
 
     public function edit($id)
     {
         $product = Product::findOrFail($id);
-        $this->product_id = $id;
+        $this->product_id = $product->id;
         $this->name = $product->name;
         $this->description = $product->description;
         $this->price = $product->price;
         $this->category = $product->category;
-        $this->isEditMode = true;
+        $this->isEditing = true;
         $this->showModal = true;
     }
 
     public function update()
     {
-        $this->validate();
+        $this->validate([
+            'name' => 'required|string|max:255',
+            'description' => 'required|string',
+            'price' => 'required|numeric|min:0',
+            'category' => 'required|string',
+            'image' => 'nullable|image|max:2048',
+        ]);
 
         $product = Product::findOrFail($this->product_id);
-        $imagePath = $product->image;
 
+        $imagePath = $product->image;
         if ($this->image) {
             $imagePath = $this->image->store('products', 'public');
         }
@@ -96,17 +102,17 @@ class ManageProducts extends Component
             'name' => $this->name,
             'description' => $this->description,
             'price' => $this->price,
-            'category' => $this->category,
+            'category' => strtolower($this->category),
             'image' => $imagePath,
         ]);
 
-        session()->flash('message', 'Product Updated Successfully!');
-        $this->closeModal();
+        session()->flash('message', 'Product updated successfully!');
+        $this->resetFields();
     }
 
     public function delete($id)
     {
-        Product::find($id)->delete();
-        session()->flash('message', 'Product Deleted Successfully!');
+        Product::findOrFail($id)->delete();
+        session()->flash('message', 'Product deleted successfully!');
     }
 }
