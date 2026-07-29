@@ -6,7 +6,7 @@ use App\Http\Controllers\WishlistController;
 use App\Http\Controllers\ProductController;
 use App\Livewire\Checkout;
 use App\Livewire\Admin\ManageProducts;
-use App\Livewire\Admin\ManageCoupons;
+use App\Livewire\Admin\ManageCoupons;use App\Livewire\Admin\ManageProducts;
 
 /*
 |--------------------------------------------------------------------------
