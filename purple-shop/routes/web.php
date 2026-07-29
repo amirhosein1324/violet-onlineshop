@@ -6,14 +6,13 @@ use App\Http\Controllers\WishlistController;
 use App\Http\Controllers\ProductController;
 use App\Livewire\Checkout;
 use App\Livewire\Admin\ManageProducts;
-use App\Livewire\Admin\ManageCoupons;use App\Livewire\Admin\ManageProducts;
+use App\Livewire\Admin\ManageCoupons;
 
 /*
 |--------------------------------------------------------------------------
 | Public Storefront Routes
 |--------------------------------------------------------------------------
 */
-Route::get(uri: '/admin/products', ManageProducts::class)->name('admin.products');
 
 // Home / Main Storefront
 Route::get('/', [ProductController::class, 'index'])->name('home');
@@ -42,7 +41,7 @@ Route::middleware(['auth', 'verified'])->group(function () {
 
 /*
 |--------------------------------------------------------------------------
-| Admin Management Routes (Livewire Full Page Components)
+| Admin Management Routes
 |--------------------------------------------------------------------------
 */
 Route::prefix('admin')->name('admin.')->group(function () {
