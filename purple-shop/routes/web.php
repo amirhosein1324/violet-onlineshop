@@ -7,6 +7,7 @@ use App\Http\Controllers\ProductController;
 use App\Livewire\Checkout;
 use App\Livewire\Admin\ManageProducts;
 use App\Livewire\Admin\ManageCoupons;
+use App\Livewire\Admin\ManageOrders;
 
 /*
 |--------------------------------------------------------------------------
@@ -47,6 +48,7 @@ Route::middleware(['auth', 'verified'])->group(function () {
 Route::prefix('admin')->name('admin.')->group(function () {
     Route::get('/products', ManageProducts::class)->name('products');
     Route::get('/coupons', ManageCoupons::class)->name('coupons');
+    
 });
 
 require __DIR__.'/auth.php';
