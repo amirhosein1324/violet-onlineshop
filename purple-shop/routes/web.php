@@ -48,7 +48,7 @@ Route::middleware(['auth', 'verified'])->group(function () {
 Route::prefix('admin')->name('admin.')->group(function () {
     Route::get('/products', ManageProducts::class)->name('products');
     Route::get('/coupons', ManageCoupons::class)->name('coupons');
-    
+    Route::get('/orders', ManageOrders::class)->name('admin.orders');
 });
 
 require __DIR__.'/auth.php';
