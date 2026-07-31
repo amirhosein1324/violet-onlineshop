@@ -8,24 +8,22 @@ return new class extends Migration
 {
     public function up(): void
     {
-        Schema::create('orders', function (Blueprint $table) {$table->id();
-            $table->string('order_number')->unique();$table->string('customer_name');
-            $table->string('customer_email');$table->string('address');
-            $table->string('city');$table->string('postal_code');
-            $table->decimal('total_amount', 10, 2);$table->string('payment_method')->default('card');
-            $table->string('status')->default('completed');$table->timestamps();
-        });
-
-        Schema::create('order_items', function (Blueprint $table) {
-            $table->id();$table->foreignId('order_id')->constrained()->onDelete('cascade');
-            $table->foreignId('product_id')->constrained()->onDelete('cascade');$table->integer('quantity');
-            $table->decimal('price', 10, 2);$table->timestamps();
+        Schema::create('orders', function (Blueprint $table) {
+            $table->id();
+            $table->foreignId('user_id')->constrained()->onDelete('cascade');
+            $table->string('order_number')->unique();
+            $table->decimal('subtotal', 10, 2);
+            $table->decimal('discount', 10, 2)->default(0.00);
+            $table->decimal('total', 10, 2);
+            $table->string('status')->default('pending'); // pending, processing, completed, cancelled
+            $table->string('payment_method')->default('card');
+            $table->text('shipping_address');
+            $table->timestamps();
         });
     }
 
     public function down(): void
     {
-        Schema::dropIfExists('order_items');
         Schema::dropIfExists('orders');
     }
 };
