@@ -38,6 +38,7 @@ class Checkout extends Component
         $this->appliedCoupon = null;
         $this->discount = 0;
         $this->couponCode = '';
+        
     }
 
     public function getFinalTotalProperty()
