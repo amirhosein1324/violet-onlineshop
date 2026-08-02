@@ -38,3 +38,8 @@
    ```bash
    git clone [https://github.com/your-username/byte-bazaar.git](https://github.com/your-username/byte-bazaar.git)
 
+---
+## 🛣️ Application Route Summary
+
+| Method | Endpoint | Livewire / Controller | Access Level | Description |
+| :--- | :--- | :--- | :--- | :--- |
