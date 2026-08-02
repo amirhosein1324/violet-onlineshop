@@ -8,6 +8,7 @@ use App\Livewire\Checkout;
 use App\Livewire\Admin\ManageProducts;
 use App\Livewire\Admin\ManageCoupons;
 use App\Livewire\Admin\ManageOrders;
+use App\Livewire\Customer\OrderHistory;
 
 /*
 |--------------------------------------------------------------------------
@@ -35,6 +36,9 @@ Route::middleware(['auth', 'verified'])->group(function () {
         return view('dashboard');
     })->name('dashboard');
 
+    Route::middleware(['auth', 'verified'])->group(function () {
+    Route::get('/my-orders', OrderHistory::class)->name('customer.orders');
+});
     Route::get('/profile', [ProfileController::class, 'edit'])->name('profile.edit');
     Route::patch('/profile', [ProfileController::class, 'update'])->name('profile.update');
     Route::delete('/profile', [ProfileController::class, 'destroy'])->name('profile.destroy');
