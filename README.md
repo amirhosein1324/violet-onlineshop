@@ -46,3 +46,4 @@
 | `GET` | `/` | `ProductController@index` | Public | Home page & product catalog |
 | `GET` | `/wishlist` | `WishlistController@index` | Public / User | Saved wishlist items |
 | `POST` | `/wishlist/{id}/toggle` | `WishlistController@toggle` | User | Toggle saved item status |
+| `GET` | `/checkout` | `App\Livewire\Checkout` | Public / User | Cart & checkout process |
