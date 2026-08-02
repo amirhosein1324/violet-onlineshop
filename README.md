@@ -29,7 +29,11 @@
 * **Icons & Styling:** Heroicons / Custom SVG with Tailwind glassmorphism backdrop blurs
 
 ---
-
+## How to run backend
+```
+npm install
+npm run dev
+```
 ---
 
 ### ⚙️ Installation & Setup
@@ -47,3 +51,7 @@
 | `GET` | `/wishlist` | `WishlistController@index` | Public / User | Saved wishlist items |
 | `POST` | `/wishlist/{id}/toggle` | `WishlistController@toggle` | User | Toggle saved item status |
 | `GET` | `/checkout` | `App\Livewire\Checkout` | Public / User | Cart & checkout process |
+| `GET` | `/my-orders` | `App\Livewire\Customer\OrderHistory` | Auth User | Customer order history & receipts |
+| `GET` | `/admin/products` | `App\Livewire\Admin\ManageProducts` | Admin | Product CRUD & stock management |
+| `GET` | `/admin/coupons` | `App\Livewire\Admin\ManageCoupons` | Admin | Create & manage discount codes |
+| `GET` | `/admin/orders` | `App\Livewire\Admin\ManageOrders` | Admin | Order fulfillment & status updates |
