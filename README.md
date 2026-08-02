@@ -44,3 +44,4 @@
 | Method | Endpoint | Livewire / Controller | Access Level | Description |
 | :--- | :--- | :--- | :--- | :--- |
 | `GET` | `/` | `ProductController@index` | Public | Home page & product catalog |
+| `GET` | `/wishlist` | `WishlistController@index` | Public / User | Saved wishlist items |
