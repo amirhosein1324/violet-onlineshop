@@ -28,15 +28,16 @@ A modern, fast, and feature-rich online shop built with **Laravel**, **Livewire*
 
 ## 🛠️ Tech Stack & Requirements
 
-* **Framework**: Laravel 10 / 11
-* **Reactivity**: Livewire v3
-* **Styling**: Tailwind CSS (Custom Violet & Slate Theme)
-* **Database**: MySQL / MariaDB
-* **PHP**: 8.1+
+* **Framework:** [Laravel](https://laravel.com/)
+* **Frontend:** Blade Templates, [Tailwind CSS](https://tailwindcss.com/)
+* **Database:** MySQL
+* **Icons & Styling:** Heroicons / Custom SVG with Tailwind glassmorphism backdrop blurs
 
 ---
 
-## 🚀 Setup & Installation
+---
+
+### ⚙️ Installation & Setup
 
 1. **Clone the repository & install PHP dependencies**:
    ```bash
@@ -44,7 +45,6 @@ A modern, fast, and feature-rich online shop built with **Laravel**, **Livewire*
 
 ---
 
-## 🛣️ Application Route Summary
 
 | Method | Endpoint | Livewire / Controller | Access Level | Description |
 | :--- | :--- | :--- | :--- | :--- |
