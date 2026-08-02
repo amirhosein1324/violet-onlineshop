@@ -1,40 +1,50 @@
-# 🛒 Violet Online Shop — Modern Laravel E-Commerce Store
+# 🛍️ Violet & Slate E-Commerce Store (Laravel + Livewire)
 
-![Laravel](https://img.shields.io/badge/Laravel-10.x%20%2F%2011.x-FF2D20?style=for-the-badge&logo=laravel&logoColor=white)
-![Tailwind CSS](https://img.shields.io/badge/Tailwind_CSS-3.x-06B6D4?style=for-the-badge&logo=tailwindcss&logoColor=white)
-![PHP](https://img.shields.io/badge/PHP-8.2%2B-777BB4?style=for-the-badge&logo=php&logoColor=white)
-![MySQL](https://img.shields.io/badge/MySQL-8.0-4479A1?style=for-the-badge&logo=mysql&logoColor=white)
-
-**Violet shop** is a modern, high-performance e-commerce platform built on Laravel with a sleek **Electric Violet & Slate Gray** theme. Designed for optimal user experience, it features custom glowing UI elements, glassmorphism UI components, real-time customer reviews, coupon management, and robust administrative tools.
+A modern, fast, and feature-rich online shop built with **Laravel**, **Livewire**, and **Tailwind CSS**, featuring a custom **Electric Violet & Slate Gray** theme with sleek UI effects (glassmorphism, micro-interactions, neon accents).
 
 ---
 
-## 🎨 Key Features & Highlights
+## ✨ Features Implemented
 
-* **💜 Modern Dark Mode UI:** Electric Violet accents layered over Charcoal/Slate Gray backgrounds with subtle glassmorphism and glowing hover effects.
-* **🛍️ Product Showcase & Catalog:** Dynamic product grid displaying real-time star ratings, availability, and detailed product attributes.
-* **⭐ Star Ratings & Reviews System:** Allows users to submit 1–5 star ratings and written reviews with dynamic aggregate score calculation.
-* **🛒 Shopping Cart & Coupon Engine:** Seamless session-based cart management with discount coupon code validation.
-* **📊 Sales & Analytics Dashboard:** Integrated admin overview for tracking orders, top-selling items, and platform metrics.
-* **📱 Responsive Design:** Fully responsive layout optimized across mobile, tablet, and desktop viewports.
+### 🎨 Storefront & Public Routes
+* **Hero Banner & Catalog Grid**: Interactive product showcases with category filtering and real-time search.
+* **Wishlist Management**: Instant product toggling for authenticated users.
+* **Real-time Checkout**: Livewire-driven checkout interface.
+
+### 🎟️ Coupons & Discounts
+* Dynamic creation of fixed-amount or percentage-based promo codes.
+* Minimum order thresholds and toggleable active/disabled statuses.
+
+### 📦 Order Processing & Tracking
+* **Customer Order History (`/my-orders`)**: Track order status (`pending`, `processing`, `completed`, `cancelled`), view itemized receipts, and shipping details.
+* **Admin Order Dashboard (`/admin/orders`)**: Real-time order fulfillment updating and order overview.
+
+### ⚡ Admin Dashboard
+* **Manage Products (`/admin/products`)**: CRUD operations for inventory items with file uploads linked to local storage.
+* **Manage Coupons (`/admin/coupons`)**: Promotion control center.
+* **Manage Orders (`/admin/orders`)**: Fulfill customer orders and monitor live revenue.
 
 ---
 
+## 🛠️ Tech Stack & Requirements
 
-## 🛠️ Tech Stack
-
-* **Framework:** [Laravel](https://laravel.com/)
-* **Frontend:** Blade Templates, [Tailwind CSS](https://tailwindcss.com/)
-* **Database:** MySQL
-* **Icons & Styling:** Heroicons / Custom SVG with Tailwind glassmorphism backdrop blurs
-
----
+* **Framework**: Laravel 10 / 11
+* **Reactivity**: Livewire v3
+* **Styling**: Tailwind CSS (Custom Violet & Slate Theme)
+* **Database**: MySQL / MariaDB
+* **PHP**: 8.1+
 
 ---
 
-### ⚙️ Installation & Setup
+## 🚀 Setup & Installation
 
-1. **Clone the repository:**
+1. **Clone the repository & install PHP dependencies**:
    ```bash
-   git clone [https://github.com/your-username/byte-bazaar.git](https://github.com/your-username/byte-bazaar.git)
+   composer install
 
+---
+
+## 🛣️ Application Route Summary
+
+| Method | Endpoint | Livewire / Controller | Access Level | Description |
+| :--- | :--- | :--- | :--- | :--- |
