@@ -43,3 +43,4 @@
 
 | Method | Endpoint | Livewire / Controller | Access Level | Description |
 | :--- | :--- | :--- | :--- | :--- |
+| `GET` | `/` | `ProductController@index` | Public | Home page & product catalog |
