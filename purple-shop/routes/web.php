@@ -10,6 +10,7 @@ use App\Livewire\Admin\ManageCoupons;
 use App\Livewire\Admin\ManageOrders;
 use App\Livewire\Customer\OrderHistory;
 
+
 /*
 |--------------------------------------------------------------------------
 | Public Storefront Routes
@@ -25,6 +26,9 @@ Route::post('/wishlist/{product}/toggle', [WishlistController::class, 'toggle'])
 
 // Checkout (Livewire Component)
 Route::get('/checkout', Checkout::class)->name('checkout');
+
+
+
 
 /*
 |--------------------------------------------------------------------------
