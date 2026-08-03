@@ -28,7 +28,11 @@ Route::post('/wishlist/{product}/toggle', [WishlistController::class, 'toggle'])
 Route::get('/checkout', Checkout::class)->name('checkout');
 
 
-
+Route::middleware(['auth', 'admin'])->prefix('admin')->name('admin.')->group(function () {
+    Route::get('/products', ManageProducts::class)->name('products');
+    Route::get('/coupons', ManageCoupons::class)->name('coupons');
+    Route::get('/orders', ManageOrders::class)->name('orders');
+});
 
 /*
 |--------------------------------------------------------------------------
