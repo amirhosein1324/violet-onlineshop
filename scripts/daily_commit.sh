@@ -1,33 +1,45 @@
 #!/usr/bin/env bash
+# Run this ONCE from the root of your repo (X:\violet-onlineshop), in Git Bash.
 set -euo pipefail
 
-DURATION_DAYS=30
-START_FILE="start_date.txt"
 LOG_FILE="activity.log"
 
-if [ ! -f "$START_FILE" ]; then
-  date -u +%Y-%m-%d > "$START_FILE"
-  git add "$START_FILE"
-  git commit -m "Set start date"
-fi
+# --- Configure your date ranges here (YYYY-MM-DD) ---
+RANGES=(
+  "2026-05-01 2026-07-12"
+  "2026-08-08 2026-08-15"
+)
 
-START_DATE=$(cat "$START_FILE")
-START_EPOCH=$(date -u -d "$START_DATE" +%s)
-TODAY_EPOCH=$(date -u +%s)
-DAYS_ELAPSED=$(( (TODAY_EPOCH - START_EPOCH) / 86400 ))
+commit_for_date() {
+  local d="$1"
+  local count=$(( (RANDOM % 20) + 1 ))
+  echo "Backfilling $d with $count commit(s)..."
+  for i in $(seq 1 "$count"); do
+    # Spread commit times randomly through the day (09:00-21:00)
+    hour=$(( (RANDOM % 12) + 9 ))
+    minute=$(( RANDOM % 60 ))
+    second=$(( RANDOM % 60 ))
+    ts=$(printf "%sT%02d:%02d:%02d" "$d" "$hour" "$minute" "$second")
 
-if [ "$DAYS_ELAPSED" -ge "$DURATION_DAYS" ]; then
-  echo "30-day window is over (day $DAYS_ELAPSED). Nothing to do."
-  exit 0
-fi
+    echo "$ts - commit $i of $count" >> "$LOG_FILE"
+    git add "$LOG_FILE"
 
-COUNT=$(( (RANDOM % 20) + 1 ))
-echo "Day $DAYS_ELAPSED of $DURATION_DAYS: making $COUNT commit(s)."
+    GIT_AUTHOR_DATE="$ts" GIT_COMMITTER_DATE="$ts" \
+      git commit -m "Update ($i/$count)" --quiet --date="$ts"
+  done
+}
 
-for i in $(seq 1 "$COUNT"); do
-  echo "$(date -u +'%Y-%m-%dT%H:%M:%SZ') - commit $i of $COUNT" >> "$LOG_FILE"
-  git add "$LOG_FILE"
-  git commit -m "Daily update ($i/$COUNT)" --quiet
+for range in "${RANGES[@]}"; do
+  start=$(echo "$range" | cut -d' ' -f1)
+  end=$(echo "$range" | cut -d' ' -f2)
+
+  d="$start"
+  while [ "$(date -d "$d" +%s)" -le "$(date -d "$end" +%s)" ]; do
+    commit_for_date "$d"
+    d=$(date -d "$d + 1 day" +%Y-%m-%d)
+  done
 done
 
-echo "Done."
+echo ""
+echo "All done. Review with: git log --oneline"
+echo "Then push with: git push"
